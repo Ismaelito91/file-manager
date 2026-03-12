@@ -7,8 +7,11 @@ import { connectDB } from "./config/database.js";
 const app = express();
 
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: true }));
+
 app.use(cors());
+
 app.use(morgan("dev"));
 
 const APP_PORT = process.env.APP_PORT || 3000;
