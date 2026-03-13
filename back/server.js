@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import { connectDB } from "./config/database.js";
+import { router as fileRouter } from "./src/routes/files.routes.js";
 
 const app = express();
 
@@ -19,6 +20,8 @@ const APP_PORT = process.env.APP_PORT || 3000;
 app.get("/health", (req, res) => {
   return res.status(200).json({ status: "success" });
 });
+
+app.use("/files", fileRouter);
 
 connectDB();
 
