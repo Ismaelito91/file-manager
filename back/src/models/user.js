@@ -26,9 +26,6 @@ const userSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
- main
-  },
-=======
     toJSON: {
       virtuals: true,
       versionKey: false,
@@ -50,7 +47,6 @@ const userSchema = new mongoose.Schema(
       },
     },
   }
- model-user
 );
 
 export const User = mongoose.model("User", userSchema);
