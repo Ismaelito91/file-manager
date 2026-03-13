@@ -4,6 +4,7 @@ import cors from "cors";
 import morgan from "morgan";
 import { connectDB } from "./config/database.js";
 import userRouter from "./src/routes/user.routes.js";
+import { router as fileRouter } from "./src/routes/files.routes.js";
 
 const app = express();
 
@@ -22,6 +23,8 @@ app.get("/health", (req, res) => {
 app.use("/users", userRouter);
 
 const APP_PORT = process.env.APP_PORT || 3000;
+
+app.use("/files", fileRouter);
 
 connectDB();
 
