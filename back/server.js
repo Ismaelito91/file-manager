@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import { connectDB } from "./config/database.js";
+import userRouter from "./src/routes/user.routes.js";
 
 const app = express();
 
@@ -14,14 +15,16 @@ app.use(cors());
 
 app.use(morgan("dev"));
 
-const APP_PORT = process.env.APP_PORT || 3000;
-
 app.get("/health", (req, res) => {
-  return res.status(200).json({ status: "success" });
+  res.json({ status: "success" });
 });
+
+app.use("/users", userRouter);
+
+const APP_PORT = process.env.APP_PORT || 3000;
 
 connectDB();
 
-app.listen(APP_PORT, () => {
+app.listen(APP_PORT, "0.0.0.0", () => {
   console.log(`Server is running on http://localhost:${APP_PORT}`);
 });

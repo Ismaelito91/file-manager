@@ -26,7 +26,31 @@ const userSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+ main
   },
+=======
+    toJSON: {
+      virtuals: true,
+      versionKey: false,
+      transform: (_, ret) => {
+        ret.id = ret._id;
+        delete ret._id;
+        delete ret.password;
+        return ret;
+      },
+    },
+    toObject: {
+      virtuals: true,
+      versionKey: false,
+      transform: (_, ret) => {
+        ret.id = ret._id;
+        delete ret._id;
+        delete ret.password;
+        return ret;
+      },
+    },
+  }
+ model-user
 );
 
 export const User = mongoose.model("User", userSchema);
