@@ -2,8 +2,10 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.js";
+import { authMiddleware } from "../middlewares/auth.js";
 
 const router = express.Router();
+
 
 // Créer un utilisateur (inscription)
 router.post("/", async (req, res) => {
@@ -40,8 +42,10 @@ router.post("/", async (req, res) => {
   }
 });
 
+// ========== Routes protégées (token JWT requis) ==========
+
 // Lister tous les utilisateurs
-router.get("/", async (req, res) => {
+router.get("/", authMiddleware, async (req, res) => {
   try {
     const users = await User.find({}, "-password");
     return res.json(users);
@@ -52,7 +56,7 @@ router.get("/", async (req, res) => {
 });
 
 // Récupérer un utilisateur par id
-router.get("/:id", async (req, res) => {
+router.get("/:id", authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.params.id, "-password");
     if (!user) {
@@ -66,7 +70,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // Mettre à jour un utilisateur
-router.put("/:id", async (req, res) => {
+router.put("/:id", authMiddleware, async (req, res) => {
   try {
     const { first_name, last_name, email, password } = req.body;
 
@@ -94,7 +98,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // Supprimer un utilisateur
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authMiddleware, async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
     if (!user) {
