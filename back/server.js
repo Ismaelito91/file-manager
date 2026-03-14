@@ -4,16 +4,13 @@ import cors from "cors";
 import morgan from "morgan";
 import { connectDB } from "./config/database.js";
 import userRouter from "./src/routes/user.routes.js";
-import { router as fileRouter } from "./src/routes/files.routes.js";
+import { errorHandler } from "./src/middlewares/errorHandler.js";
 
 const app = express();
 
 app.use(express.json());
-
 app.use(express.urlencoded({ extended: true }));
-
 app.use(cors());
-
 app.use(morgan("dev"));
 
 app.get("/health", (req, res) => {
@@ -21,6 +18,8 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/users", userRouter);
+
+app.use(errorHandler);
 
 const APP_PORT = process.env.APP_PORT || 3000;
 
