@@ -4,6 +4,7 @@ import cors from "cors";
 import morgan from "morgan";
 import { connectDB } from "./config/database.js";
 import userRouter from "./src/routes/user.routes.js";
+import { router as fileRouter } from "./src/routes/files.routes.js";
 import { errorHandler } from "./src/middlewares/errorHandler.js";
 
 const app = express();
@@ -18,6 +19,8 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/users", userRouter);
+app.use("/files", fileRouter);
+app.use("/uploads", express.static("uploads"));
 
 app.use(errorHandler);
 
