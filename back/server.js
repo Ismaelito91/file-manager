@@ -23,8 +23,6 @@ app.use(errorHandler);
 
 const APP_PORT = process.env.APP_PORT || 3000;
 
-app.use("/files", fileRouter);
-
 connectDB();
 
 app.listen(APP_PORT, "0.0.0.0", () => {
