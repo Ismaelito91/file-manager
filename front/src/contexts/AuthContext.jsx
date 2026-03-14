@@ -7,9 +7,11 @@ const AuthProvider = ({ children }) => {
   const [authUser, setAuthUser] = useLocalStorage("auth_user", null);
   const [loading, setLoading] = useState(false);
 
-  const login = () => {};
+  const login = (credentials) => {};
 
-  const logout = () => {};
+  const logout = () => {
+    localStorage.removeItem("auth_user");
+  };
 
   return (
     <AuthContext.Provider value={{ authUser, login, logout, loading }}>
