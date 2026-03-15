@@ -1,4 +1,5 @@
 import express from "express";
+//
 import {
   destroy,
   index,
@@ -8,11 +9,12 @@ import {
   update,
   download,
   preview,
-} from "../controllers/files.controllers.js";
-import { upload } from "../middlewares/files.middlewares.js";
-import { authMiddleware } from "../middlewares/auth.js";
+} from "../controllers/file.controller.js";
+//
+import upload from "../middlewares/upload.middleware.js";
+import authMiddleware from "../middlewares/auth.middleware.js";
 
-export const router = express.Router();
+const router = express.Router();
 
 router.use(authMiddleware);
 
@@ -24,3 +26,5 @@ router.get("/:id/preview", preview);
 router.post("/", upload.single("file"), store);
 router.put("/:id", update);
 router.delete("/:id", destroy);
+
+export default router;

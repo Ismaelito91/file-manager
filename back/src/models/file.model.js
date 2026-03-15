@@ -23,8 +23,15 @@ const fileSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    user_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   { timestamps: true },
 );
 
-export const File = mongoose.model("File", fileSchema);
+const File = mongoose.model("File", fileSchema);
+
+export default File;
