@@ -12,13 +12,8 @@ export const registerSchema = Joi.object(fields).options({
 });
 
 export const loginSchema = Joi.object({
-  email: fields.email.required(),
-  password: fields.password.required(),
-});
-
-export const updateUserSchema = Joi.object({
-  first_name: fields.first_name,
-  last_name: fields.last_name,
   email: fields.email,
-  password: fields.password,
-}).min(1);
+  password: Joi.string(),
+}).options({ presence: "required" });
+
+export const updateUserSchema = Joi.object(fields).min(1);
