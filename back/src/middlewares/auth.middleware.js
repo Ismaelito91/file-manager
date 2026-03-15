@@ -1,8 +1,8 @@
 import { verifyToken } from "../utils/jwt.util.js";
 import AppError from "../utils/apperror.util.js";
-import catchAsync from "../utils/catchasync.util.js";
+import asyncHandler from "../utils/asynchandler.js";
 
-const authMiddleware = catchAsync((req, res, next) => {
+const authMiddleware = asyncHandler((req, res, next) => {
   const header = req.headers.authorization;
   let token = null;
 

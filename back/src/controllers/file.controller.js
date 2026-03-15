@@ -2,9 +2,9 @@ import path from "node:path";
 import fs from "node:fs";
 import File from "../models/file.model.js";
 import AppError from "../utils/apperror.util.js";
-import catchAsync from "../utils/catchasync.util.js";
+import asyncHandler from "../utils/asynchandler.js";
 
-export const index = catchAsync(async (req, res) => {
+export const index = asyncHandler(async (req, res) => {
   const { search } = req.query;
   const filter = { user_id: req.user.sub };
 
@@ -16,7 +16,7 @@ export const index = catchAsync(async (req, res) => {
   return res.json(files);
 });
 
-export const show = catchAsync(async (req, res) => {
+export const show = asyncHandler(async (req, res) => {
   const file = await File.findOne({
     _id: req.params.id,
     user_id: req.user.sub,
@@ -25,7 +25,7 @@ export const show = catchAsync(async (req, res) => {
   return res.json(file);
 });
 
-export const store = catchAsync(async (req, res) => {
+export const store = asyncHandler(async (req, res) => {
   if (!req.file) throw new AppError("No file uploaded.", 400);
 
   const { originalname, mimetype, path: filePath, size } = req.file;
@@ -42,7 +42,7 @@ export const store = catchAsync(async (req, res) => {
   return res.status(201).json(file);
 });
 
-export const update = catchAsync(async (req, res) => {
+export const update = asyncHandler(async (req, res) => {
   const { name } = req.body;
   if (!name) throw new AppError("Name is required.", 400);
 
@@ -56,7 +56,7 @@ export const update = catchAsync(async (req, res) => {
   return res.json(file);
 });
 
-export const destroy = catchAsync(async (req, res) => {
+export const destroy = asyncHandler(async (req, res) => {
   const file = await File.findOneAndDelete({
     _id: req.params.id,
     user_id: req.user.sub,
@@ -70,7 +70,7 @@ export const destroy = catchAsync(async (req, res) => {
   return res.status(204).send();
 });
 
-export const stats = catchAsync(async (req, res) => {
+export const stats = asyncHandler(async (req, res) => {
   const userId = req.user.sub;
 
   const [totalFiles, result, recentFiles] = await Promise.all([
@@ -89,7 +89,7 @@ export const stats = catchAsync(async (req, res) => {
   });
 });
 
-export const download = catchAsync(async (req, res) => {
+export const download = asyncHandler(async (req, res) => {
   const file = await File.findOne({
     _id: req.params.id,
     user_id: req.user.sub,
@@ -103,7 +103,7 @@ export const download = catchAsync(async (req, res) => {
   return res.download(file.path, file.name);
 });
 
-export const preview = catchAsync(async (req, res) => {
+export const preview = asyncHandler(async (req, res) => {
   const file = await File.findOne({
     _id: req.params.id,
     user_id: req.user.sub,
