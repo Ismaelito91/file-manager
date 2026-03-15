@@ -5,15 +5,11 @@ import { AppError } from "../utils/AppError.js";
 import { catchAsync } from "../utils/catchAsync.js";
 
 export const index = catchAsync(async (req, res) => {
-  const { folder_id, search, all } = req.query;
+  const { search } = req.query;
   const filter = {};
 
   if (search) {
     filter.name = { $regex: search, $options: "i" };
-  } else if (all) {
-    // pas de filtre, renvoie tous les fichiers
-  } else {
-    filter.folder_id = folder_id || null;
   }
 
   const files = await File.find(filter).sort({ name: 1 });
@@ -26,12 +22,22 @@ export const show = catchAsync(async (req, res) => {
   return res.json(file);
 });
 
+export const stats = catchAsync(async (req, res) => {
+  const [totalFiles, result] = await Promise.all([
+    File.countDocuments(),
+    File.aggregate([{ $group: { _id: null, totalSize: { $sum: "$size" } } }]),
+  ]);
+  const totalSize = result[0]?.totalSize || 0;
+  const recentFiles = await File.find().sort({ createdAt: -1 }).limit(5);
+
+  return res.json({ totalFiles, totalSize, recentFiles });
+});
+
 export const store = catchAsync(async (req, res) => {
   if (!req.file) throw new AppError("Aucun fichier envoyé.", 400);
 
   const { originalname, mimetype, path: filePath, size } = req.file;
   const ext = path.extname(originalname);
-  const folderId = req.body.folder_id || null;
 
   const file = await File.create({
     name: originalname,
@@ -39,7 +45,6 @@ export const store = catchAsync(async (req, res) => {
     size,
     path: filePath,
     extension: ext,
-    folder_id: folderId,
   });
 
   return res.status(201).json(file);

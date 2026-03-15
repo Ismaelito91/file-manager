@@ -1,22 +1,18 @@
 import { api } from "./apiService";
 
-export const getFiles = (folderId) => {
+export const getFiles = (search) => {
   const params = {};
-  if (folderId) params.folder_id = folderId;
+  if (search) params.search = search;
   return api.get("/files", { params });
 };
 
-export const getAllFiles = () => api.get("/files", { params: { all: true } });
-
-export const searchFiles = (query) =>
-  api.get("/files", { params: { search: query } });
-
 export const getFile = (id) => api.get(`/files/${id}`);
 
-export const uploadFile = (file, folderId) => {
+export const getStats = () => api.get("/files/stats");
+
+export const uploadFile = (file) => {
   const formData = new FormData();
   formData.append("file", file);
-  if (folderId) formData.append("folder_id", folderId);
   return api.post("/files", formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });

@@ -15,33 +15,33 @@ const Sidebar = () => {
             <Link
               to="/"
               className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-              data-tip="Home"
+              data-tip="Accueil"
             >
               <Home className="my-1.5 inline-block w-4 h-4" strokeWidth={2} />
-              <span className="is-drawer-close:hidden">Home</span>
+              <span className="is-drawer-close:hidden">Accueil</span>
             </Link>
           </li>
           <li>
             <Link
               to="/files"
               className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-              data-tip="Files"
+              data-tip="Fichiers"
             >
               <File className="my-1.5 inline-block w-4 h-4" strokeWidth={2} />
-              <span className="is-drawer-close:hidden">Files</span>
+              <span className="is-drawer-close:hidden">Fichiers</span>
             </Link>
           </li>
           <li>
             <Link
               to="/settings"
               className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-              data-tip="Settings"
+              data-tip="Paramètres"
             >
               <Settings2
                 className="my-1.5 inline-block w-4 h-4"
                 strokeWidth={2}
               />
-              <span className="is-drawer-close:hidden">Settings</span>
+              <span className="is-drawer-close:hidden">Paramètres</span>
             </Link>
           </li>
         </ul>

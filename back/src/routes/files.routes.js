@@ -3,6 +3,7 @@ import {
   destroy,
   index,
   show,
+  stats,
   store,
   update,
   download,
@@ -16,6 +17,7 @@ export const router = express.Router();
 router.use(authMiddleware);
 
 router.get("/", index);
+router.get("/stats", stats);
 router.get("/:id", show);
 router.get("/:id/download", download);
 router.get("/:id/preview", preview);
